@@ -25,24 +25,24 @@ Using Bin Diesel, you get the following options for free:
 
   The built in message helpers won't print if verbose if false, saving you the hassle.
     
-    ```ruby
-    puts 'Something' if verbose
-    message "Event" # I only print if verbose is true!
-    ```
+```ruby
+puts 'Something' if verbose
+message "Event" # I only print if verbose is true!
+```
 
 * `options`
 
   This is struct that allows you to access options you configure.
 
-    ```ruby
-    File.open options.my_file_path
-    ```
+```ruby
+File.open options.my_file_path
+```
 
 * `dry_run` - false by default
 
-    ```ruby
-    do_irrecovable_change unless dry_run
-    ```
+```ruby
+do_irrecovable_change unless dry_run
+```
 
 * `args`
 
@@ -75,32 +75,32 @@ end
 
 When parsing is done, `OptionParser::MissingArguement` will be raised for anything specified here that `options` does not respond to.
 
-    ```ruby
-    opts_required :path
-    # if you never set options.path, things go BOOM.
-    ```
+```ruby
+opts_required :path
+# if you never set options.path, things go BOOM.
+```
 
 * `opts_accessor *args`
 
 Turns the provided args into accessors to help in your script writing.
 
-    ```ruby
-    opts_accessor :path
-    # allows
-    File.open path
-    # instead of
-    File.open options.path
-    # or
-    File.open @path
-    ```
+```ruby
+opts_accessor :path
+# allows
+File.open path
+# instead of
+File.open options.path
+# or
+File.open @path
+```
 
 * `dry_run?`
 
 Some sugar for checking if `dry_run` was set.
 
-    ```ruby
-    unless dry_run? {...}
-    ```
+```ruby
+unless dry_run? {...}
+```
 
 * `post_initialize`
 
@@ -110,12 +110,12 @@ Provided so you don't have to overide Bin Diesel's initialize method.  It execut
 
 This is the big deal of your script.  You should use this as the method that'll be called to kick off your script. We do nice things for you, like catch exceptions and exit and return 1 or return 0 if all goes well.
 
-    ```ruby
-    run do
-      ima_private_method
-      ima_nother
-    end
-    ```
+```ruby
+run do
+  ima_private_method
+  ima_nother
+end
+```
 
 * `message(text)`
 
