@@ -24,7 +24,7 @@ Using Bin Diesel, you get the following options for free:
 * `verbose` - false by default
 
   The built in message helpers won't print if verbose if false, saving you the hassle.
-    
+
 ```ruby
 puts 'Something' if verbose
 message "Event" # I only print if verbose is true!
@@ -125,7 +125,7 @@ puts text if `verbose` is set to `false`
 
 Like `message`, but prepends with "**"
 
-* `error_text(text)`
+* `error_message(text)`
 
 puts text, no matter the setting of `verbose`. It also prepends text with "!! "
 
