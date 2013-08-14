@@ -136,7 +136,11 @@ This is the most basic way to use Bin Diesel:
     class MyScript
       include BinDiesel # ahh yeah, goodies
 
-      def run
+      post_initialize do
+        # Do some stuff with options before `run` is called
+      end
+
+      run do
         # I am required and will throw and exception if not defined.
         # This is what you should call, and should contain the main logic of your script.
         # If there is no exception, it'll return 0, otherwise 1 for use as an exit code
