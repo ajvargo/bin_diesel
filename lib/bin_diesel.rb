@@ -24,6 +24,12 @@ module BinDiesel
       end
     end
 
+    def post_initialize &block
+      define_method :post_initialize do
+        instance_eval &block
+      end
+    end
+
     def opts_banner text
       OPTS[:banner] = text
     end
@@ -141,7 +147,7 @@ module BinDiesel
           if option[:block]
             opts.on *(option[:options] << Proc.new{|*args| self.instance_exec(*args, &option[:block])})
           else
-            opts.on *option[:options] #, (instance_eval &option[:block] if option[:block])
+            opts.on *option[:options]
           end
         end
         opts.separator ""
