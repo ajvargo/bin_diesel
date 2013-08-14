@@ -131,25 +131,27 @@ Or install it yourself as:
 
 This is the most basic way to use Bin Diesel:
 
-    #! /usr/bin/env ruby
+```ruby
+#! /usr/bin/env ruby
 
-    class MyScript
-      include BinDiesel # ahh yeah, goodies
+class MyScript
+  include BinDiesel # ahh yeah, goodies
 
-      post_initialize do
-        # Do some stuff with options before `run` is called
-      end
+  post_initialize do
+    # Do some stuff with options before `run` is called
+  end
 
-      run do
-        # I am required and will throw and exception if not defined.
-        # This is what you should call, and should contain the main logic of your script.
-        # If there is no exception, it'll return 0, otherwise 1 for use as an exit code
-      end
-    end
+  run do
+    # I am required and will throw and exception if not defined.
+    # This is what you should call, and should contain the main logic of your script.
+    # If there is no exception, it'll return 0, otherwise 1 for use as an exit code
+  end
+end
 
-    if __FILE__ == $0  # don't run it if not called alone
-      exit MyScript.new(ARGV).run  # the 0 or 1 allows you to get a proper exit code
-    end
+if __FILE__ == $0  # don't run it if not called alone
+  exit MyScript.new(ARGV).run  # the 0 or 1 allows you to get a proper exit code
+end
+```
 
 See the Examples directory for more examples.
 
