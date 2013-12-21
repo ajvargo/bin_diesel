@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["avargo@dataxu.com", "awhite@dataxu.com"]
   spec.description   = %q{Bin Diesel allows you to write scripts relying on Option Parser with DSL that eliminates the boiler plate code. Define options and run. }
   spec.summary       = %q{Easier "bin" scripts built with Option Parser.}
-  spec.homepage      = "http://dataxu.com"
-  spec.license       = "MIT"
+  spec.homepage      = "http://www.dataxu.com"
+  spec.license       = "New BSD License"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
