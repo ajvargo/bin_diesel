@@ -1,7 +1,7 @@
+require_relative "bin_diesel/version"
 require 'optparse'
 require 'ostruct'
 
-require "bin_diesel/version"
 
 module BinDiesel
   OPTS = {:banner => nil, :description => [], :user_options => [], :required_options => [], :accessible_options => []}
@@ -12,7 +12,7 @@ module BinDiesel
       define_method :run do
         begin
           puts "DRY RUN" if options.dry_run
-          instance_eval &block
+          instance_eval(&block)
           ending = happy_ending
         rescue Exception => e
           error_message "FAILED: #{e.message}"
@@ -26,7 +26,7 @@ module BinDiesel
 
     def post_initialize &block
       define_method :post_initialize do
-        instance_eval &block
+        instance_eval(&block)
       end
     end
 
@@ -52,7 +52,7 @@ module BinDiesel
   end
 
   module InstanceMethods
-    def initialize args
+    def initialize args=["--help"]
       @args = args
       @options = OpenStruct.new(:dry_run => false, :verbose => false)
 
@@ -124,37 +124,37 @@ module BinDiesel
     end
 
     def parse_options
-      opts = OptionParser.new do |opts|
-        opts.banner = OPTS[:banner]
-        opts.separator ""
+      opts = OptionParser.new do |opt_parser|
+        opt_parser.banner = OPTS[:banner]
+        opt_parser.separator ""
 
-        OPTS[:description].each{|description| opts.separator description }
-        opts.separator ""
+        OPTS[:description].each{|description| opt_parser.separator description }
+        opt_parser.separator ""
 
-        opts.separator "Specific options:"
-        opts.on("-d", "--dry-run", "Run script without any real changes.", "\tSets --verbose by default.") do |dry_run|
+        opt_parser.separator "Specific options:"
+        opt_parser.on("-d", "--dry-run", "Run script without any real changes.", "\tSets --verbose by default.") do |dry_run|
           options.dry_run = true
           options.verbose = true
         end
 
-        opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+        opt_parser.on("-v", "--[no-]verbose", "Run verbosely") do |v|
           options.verbose = v
         end
-        opts.separator ""
+        opt_parser.separator ""
 
         # USER SPECIFIED
         OPTS[:user_options].each do |option|
           if option[:block]
-            opts.on *(option[:options] << Proc.new{|*args| self.instance_exec(*args, &option[:block])})
+            opt_parser.on(*(option[:options] << Proc.new{|*args| self.instance_exec(*args, &option[:block])}))
           else
-            opts.on *option[:options]
+            opt_parser.on(*option[:options])
           end
         end
-        opts.separator ""
+        opt_parser.separator ""
 
-        opts.separator "Common options:"
-        opts.on_tail("-h", "--help", "Show this message") do
-          puts opts
+        opt_parser.separator "Common options:"
+        opt_parser.on_tail("-h", "--help", "Show this message") do
+          puts opt_parser
           exit happy_ending
         end
       end
