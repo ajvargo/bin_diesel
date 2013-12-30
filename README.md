@@ -85,7 +85,7 @@ The args passed in to the run method.  You may have a required thing that isn't 
 
 * `opts_banner(text)`
 
-Set banner text for your script. Usually the bare usage line show an example run.
+Set banner text for your script. Usually the bare usage line to show an example run.
 
 * `opts_description(text)`
 
