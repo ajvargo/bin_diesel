@@ -70,7 +70,7 @@ a description of the arguments `opts_on` accepts.  If the defined option accepts
 * `dry_run` - false by default.  This is also available through `options.dry_run`.
 
 ```ruby
-do_irrecovable_change unless dry_run
+do_irrevocable_change unless dry_run
 ```
 
 * `args`
