@@ -3,10 +3,39 @@ require_relative '../test_helper'
 
 describe BinDiesel do
   describe "help flag" do
-    it 'is equivalent to call -h and --help'
-    it 'swallows other options if help is called'
+    it 'is equivalent to call -h and --help' do
+      vincent = Class.new(TestDiesel)
 
-    it 'raise a system exit' do
+      help_output = capture_std_out do
+        swallow_exit { vincent.new(['--help']).run }
+      end
+
+      h_output = capture_std_out do
+        swallow_exit { vincent.new(['-h']).run }
+      end
+
+      help_output.must_equal(h_output)
+    end
+
+    it 'swallows other options if help is called' do
+      vincent = Class.new(TestDiesel) do
+        opts_banner "This is my banner"
+
+        opts_on '-e', '--error', 'Raise an error' do
+          options.error = "Raised error"
+        end
+
+        run do
+          puts options.error
+        end
+      end
+
+      swallow_exit do
+        lambda { vincent.new(['--error', '--help']).run }.must_output "This is my banner"
+      end
+    end
+
+    it 'raises a system exit' do
       vincent = Class.new(TestDiesel)
       swallow_std_out do
         lambda{ vincent.new(["--help"]).run }.must_raise(SystemExit)

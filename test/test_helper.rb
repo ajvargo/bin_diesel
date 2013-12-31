@@ -11,6 +11,15 @@ ensure
   $stdout = STDOUT
 end
 
+def capture_std_out
+  out = StringIO.new
+  $stdout = out
+  yield
+ensure
+  $stdout = STDOUT
+  out
+end
+
 def swallow_exit
   begin
     yield
