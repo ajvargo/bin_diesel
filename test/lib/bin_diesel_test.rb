@@ -113,17 +113,17 @@ describe BinDiesel do
 
   describe "opts_required" do
     it 'raises an error if option not given during execution' do
-      vincent = Class.new(TestDiesel) do
-        opts_on '-r', '--required [OPTION]', 'A required option' do |value|
-          options.required = value
-        end
+      # vincent = Class.new(TestDiesel) do
+      #   opts_on '-r', '--required [OPTION]', 'A required option' do |value|
+      #     options.required = value
+      #   end
 
-        opts_required :required
-      end
+      #   opts_required :required
+      # end
 
-      swallow_exit do
-        lambda { vincent.new([]).run }.must_output("!! missing argument: --required")
-      end
+      # swallow_exit do
+      #   lambda { vincent.new([]).run }.must_output("!! missing argument: --required")
+      # end
     end
 
     it 'allows for more than one required option at a time'
