@@ -79,7 +79,7 @@ describe BinDiesel do
         end
       end
 
-      vbomb = vincent.new(['--flag'])
+      vbomb = vincent.new(['--boolean-flag'])
       vbomb.instance_variable_get(:@options).flag.must_equal(true)
     end
 
