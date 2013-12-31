@@ -144,6 +144,11 @@ module BinDiesel
 
         # USER SPECIFIED
         OPTS[:user_options].each do |option|
+          # We allow the user to define the proc for the opts.on block via option[:block].
+          # OptionParser can get confused by the last argument (the block), and sometimes defines it twice,
+          # which blows up spectacularly with an ArgumentError
+          option[:options].reject! {|o| o.class.to_s == 'Proc'}
+
           if option[:block]
             opt_parser.on(*(option[:options] << Proc.new{|*args| self.instance_exec(*args, &option[:block])}))
           else
@@ -159,13 +164,13 @@ module BinDiesel
         end
       end
 
-      opts = opts.parse! args
+      the_options = opts.parse! args
 
       OPTS[:required_options].each do |required_option|
         raise OptionParser::MissingArgument.new("#{optionize(required_option.to_s)} - Run with --help for help.") if @options.send(required_option).nil?
       end
 
-      opts
+      the_options
     end
 
     def optionize string
