@@ -56,7 +56,69 @@ describe BinDiesel do
   end
 
   describe "opts_on" do
+    it 'outputs help for the option with the --help flag' do
+      vincent = Class.new(TestDiesel) do
+        opts_on '-f', '--flag', 'A boolean flag' do |value|
+          options.flag = value
+        end
+      end
 
+      swallow_exit do
+        -> { vincent.new(['--help']).run }.must_output("A boolean flag")
+      end
+    end
+
+    it 'allows boolean options' do
+      vincent = Class.new(TestDiesel) do
+        opts_on '-b', '--boolean-flag', 'A boolean flag' do |value|
+          options.flag = value
+        end
+
+        run do
+          puts "flag: #{flag}"
+        end
+      end
+
+      vbomb = vincent.new(['--flag'])
+      vbomb.instance_variable_get(:@options).flag.must_equal(true)
+    end
+
+    it 'allows options with user supplied values' do
+      vincent = Class.new(TestDiesel) do
+        opts_on '-u', '--user-specified [OPTION]', 'A user specified option' do |value|
+          options.user_specified = value
+        end
+
+        run do
+          puts "user_specified: #{options.user_specified}"
+        end
+      end
+
+      vbomb = vincent.new(['--user-specified', 'option'])
+      vbomb.instance_variable_get(:@options).user_specified.must_equal('option')
+    end
+
+    it 'accepts a short flag' do
+      vincent = Class.new(TestDiesel) do
+        opts_on '-s', '--short [OPTION]', 'A short option' do |value|
+          options.short = value
+        end
+      end
+
+      vbomb = vincent.new(['-s', 'short'])
+      vbomb.instance_variable_get(:@options).short.must_equal('short')
+    end
+
+    it 'accepts a long flag' do
+      vincent = Class.new(TestDiesel) do
+        opts_on '-l', '--long [OPTION]', 'A long flag' do |value|
+          options.long = value
+        end
+      end
+
+      vbomb = vincent.new(['--long', 'long'])
+      vbomb.instance_variable_get(:@options).long.must_equal('long')
+    end
   end
 
   describe "dry_run flag" do
