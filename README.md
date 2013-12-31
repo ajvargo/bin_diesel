@@ -1,5 +1,11 @@
 # Bin Diesel
 
+## Build Status
+
+![Build Status](https://api.travis-ci.org/dataxu/bin_diesel.png)
+
+[Brought to you by the fine folks at Travis-CI](https://travis-ci.org/dataxu/bin_diesel)
+
 ## Introduction
 Bin Diesel is a utility that will allow you to create re-usable, executable scripts easier.
 
