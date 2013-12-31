@@ -66,10 +66,49 @@ describe BinDiesel do
   end
 
   describe "opts_description" do
-    it 'prints in help text'
-    it 'prints after banner in help text'
-    it 'is not required'
-    it 'prints in order specified, on separate lines'
+    it 'prints in help text' do
+      vincent = Class.new(TestDiesel) do
+        opts_description "My description"
+      end
+
+      swallow_exit do
+        lambda { vincent.new(['--help']).run }.must_output("My description")
+      end
+    end
+
+    it 'prints after banner in help text' do
+      vincent = Class.new(TestDiesel) do
+        opts_banner "The banner"
+        opts_description "The description"
+      end
+
+      swallow_exit do
+        lambda { vincent.new(['--help']).run }.must_output("The banner\n\nThe description")
+      end
+    end
+
+    it 'is not required' do
+      vincent = Class.new(TestDiesel) do
+        opts_banner "My banner"
+      end
+
+      swallow_exit do
+        lambda { vincent.new(['--help']).run }.must_output("My banner")
+      end
+    end
+
+    it 'prints in order specified, on separate lines' do
+      vincent = Class.new(TestDiesel) do
+        opts_banner "My Banner"
+
+        opts_description "description 1"
+        opts_description "description 2"
+      end
+
+      swallow_exit do
+        lambda { vincent.new(['--help']).run }.must_output("description 1\ndescription 2")
+      end
+    end
   end
 
   describe "opts_required" do
